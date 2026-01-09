@@ -1,0 +1,114 @@
+{
+  "name": "Research_MCP_Agent",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolWikipedia",
+      "typeVersion": 1,
+      "position": [
+        -208,
+        144
+      ],
+      "id": "4af2387a-03f0-4687-a1c5-d2093841a6c7",
+      "name": "Wikipedia"
+    },
+    {
+      "parameters": {
+        "resource": "all",
+        "limit": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Limit', ``, 'number') }}",
+        "additionalFields": {
+          "keyword": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Keyword', ``, 'string') }}"
+        }
+      },
+      "type": "n8n-nodes-base.hackerNewsTool",
+      "typeVersion": 1,
+      "position": [
+        -32,
+        160
+      ],
+      "id": "9216a195-527d-4947-8743-85731769a7d2",
+      "name": "Get many items in Hacker News"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolSerpApi",
+      "typeVersion": 1,
+      "position": [
+        176,
+        160
+      ],
+      "id": "5fa8240c-b1fa-4df4-9e10-08958e25c990",
+      "name": "SerpAPI",
+      "credentials": {
+        "serpApi": {
+          "id": "PFry2akBAskx769k",
+          "name": "SerpAPI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "81db4a65-1afc-489e-8d4b-8d6cf836f8e8"
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpTrigger",
+      "typeVersion": 2,
+      "position": [
+        -64,
+        -64
+      ],
+      "id": "56156bf2-c4dd-4b36-be25-1dd3b11c914d",
+      "name": "Research Agent",
+      "webhookId": "81db4a65-1afc-489e-8d4b-8d6cf836f8e8"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Wikipedia": {
+      "ai_tool": [
+        [
+          {
+            "node": "Research Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many items in Hacker News": {
+      "ai_tool": [
+        [
+          {
+            "node": "Research Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SerpAPI": {
+      "ai_tool": [
+        [
+          {
+            "node": "Research Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "8dea9b55-f02b-430a-b2b6-bd94ae58b558",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0749e73b48cf3a94ff50d37b4b94008df8f3eb05623df06cfe06044e993a59aa"
+  },
+  "id": "CBnn1azbvLTG8M645YAUT",
+  "tags": []
+}

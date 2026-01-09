@@ -1,0 +1,258 @@
+{
+  "name": "Main_Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to get contact data like email address or phone number",
+        "documentId": {
+          "__rl": true,
+          "value": "17syTtKnhbeWnfQ7q8_fNawYOfaTVEESCoTNwICP4LQI",
+          "mode": "list",
+          "cachedResultName": "Contact Database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/17syTtKnhbeWnfQ7q8_fNawYOfaTVEESCoTNwICP4LQI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Feuille 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/17syTtKnhbeWnfQ7q8_fNawYOfaTVEESCoTNwICP4LQI/edit#gid=0"
+        },
+        "options": {}
+      },
+      "id": "4379df8f-e6a5-4c80-9235-1a0ac60e7c02",
+      "name": "Contacts Data",
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        -128,
+        272
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "lInjum9B3ylamkJH",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.from.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "22c843e9-ea55-437f-8117-c71085e1e001",
+      "name": "Respond to Me",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        480,
+        0
+      ],
+      "webhookId": "de050fdc-5569-4099-8d30-4a55861411f0",
+      "credentials": {
+        "telegramApi": {
+          "id": "PwSGS8inC5K84uiD",
+          "name": "AI Assistant"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "id": "a5640ca4-e822-496c-ae4f-376d628170e0",
+      "name": "Telegram Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "2194a6b2-2302-4406-9c8c-207161b7eb22",
+      "credentials": {
+        "telegramApi": {
+          "id": "PwSGS8inC5K84uiD",
+          "name": "AI Assistant"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message.text }}",
+        "options": {
+          "systemMessage": "=You are a personal assistant AI Agent designed to handle various tasks efficiently. Your primary role is to manage emails, calendar events, and research for the user. You have access to MCP (Model Context Protocol) servers that provide specialized tools:\n\nContacts Data: Use this when you need to look up contact information like an email address. You need to use this tool BEFORE sending an email or BEFORE getting emails.\n\n\nEmail Agent MCP Server: Use this for all email-related actions including:\n- Sending emails\n- Reading and retrieving emails\n- Setting up replies or forwarding emails\n- Managing email drafts\n- Searching through emails\n\nCalendar Agent MCP Server: Use this for all calendar and scheduling operations including:\n- Creating new events\n- Updating existing events\n- Checking availability\n- Managing meeting invitations\n- Viewing upcoming schedules\n\nResearch Agent MCP Server: Use this for information gathering and research tasks including:\n- Searching Wikipedia\n- Finding relevant articles\n- Conducting web searches\n- Summarizing research findings\n- Fact-checking information\n\nWhen a task requires using one or more MCP servers, identify which server provides the most appropriate tools, pass along all relevant details, and execute the necessary actions. You may need to chain multiple MCP server calls to complete complex tasks.\n\nYour goal is to be proactive, precise, and organized in leveraging these MCP servers to provide a smooth and efficient experience for the user.\n\nCurrent time/date: {{ $now }}\n\n"
+        }
+      },
+      "id": "2bbc34d8-a119-4d47-b07d-f17d34b1fa3d",
+      "name": "Personal Assistant",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [
+        160,
+        0
+      ],
+      "retryOnFail": false
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-4o",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -304,
+        272
+      ],
+      "id": "f764dd54-7624-47de-be97-e51fda49d76c",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "6mZfegGSFn78tYMq",
+          "name": "OpenRouter account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "endpointUrl": "https://rhino-loved-shepherd.ngrok-free.app/mcp/81db4a65-1afc-489e-8d4b-8d6cf836f8e8",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1.2,
+      "position": [
+        400,
+        272
+      ],
+      "id": "893f8299-bd15-4781-98a1-1bb936c3021a",
+      "name": "ResearchMCP"
+    },
+    {
+      "parameters": {
+        "endpointUrl": "https://rhino-loved-shepherd.ngrok-free.app/mcp/08724d65-2fff-468e-83f1-2cf9ada71054",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1.2,
+      "position": [
+        64,
+        272
+      ],
+      "id": "982bf7c6-01d8-405c-bb69-6c1515bdd6bc",
+      "name": "EmailMCP"
+    },
+    {
+      "parameters": {
+        "endpointUrl": "https://rhino-loved-shepherd.ngrok-free.app/mcp/b3197a17-fa59-4ba0-a219-809f71627b8b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1.2,
+      "position": [
+        224,
+        272
+      ],
+      "id": "29b7c293-3bf7-4cd7-b5e9-a5314ef14098",
+      "name": "CalendarMCP"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Contacts Data": {
+      "ai_tool": [
+        [
+          {
+            "node": "Personal Assistant",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Personal Assistant",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Personal Assistant": {
+      "main": [
+        [
+          {
+            "node": "Respond to Me",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Personal Assistant",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ResearchMCP": {
+      "ai_tool": [
+        [
+          {
+            "node": "Personal Assistant",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "EmailMCP": {
+      "ai_tool": [
+        [
+          {
+            "node": "Personal Assistant",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CalendarMCP": {
+      "ai_tool": [
+        [
+          {
+            "node": "Personal Assistant",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "83b088e6-c322-426a-98a5-199654c8a15c",
+  "meta": {
+    "instanceId": "0749e73b48cf3a94ff50d37b4b94008df8f3eb05623df06cfe06044e993a59aa"
+  },
+  "id": "AbzuveBrIFg01EfjH6e3p",
+  "tags": []
+}

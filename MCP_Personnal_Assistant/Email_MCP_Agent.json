@@ -1,0 +1,107 @@
+{
+  "name": "Email_MCP_Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "sendTo": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('To', ``, 'string') }}",
+        "subject": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Subject', ``, 'string') }}",
+        "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', ``, 'string') }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        192
+      ],
+      "id": "3c2bab2c-0f22-4339-9477-634a34edc590",
+      "name": "Send a message in Gmail",
+      "webhookId": "f104e809-dc99-448d-b0a7-4a67f02f43ca",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "CcDSvEQQKcMDsqL5",
+          "name": "Gmail account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "limit": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Limit', ``, 'number') }}",
+        "simple": false,
+        "filters": {
+          "sender": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Sender', ``, 'string') }}"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.2,
+      "position": [
+        224,
+        192
+      ],
+      "id": "95968f1d-aafd-4c00-919d-b132678ebfb1",
+      "name": "Get many messages in Gmail",
+      "webhookId": "9ba7a2df-013f-4f25-a663-9383f3ead7c0",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "CcDSvEQQKcMDsqL5",
+          "name": "Gmail account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "08724d65-2fff-468e-83f1-2cf9ada71054"
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpTrigger",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "20571971-3924-4bcb-b6f4-0e1a48028648",
+      "name": "Email Agent",
+      "webhookId": "08724d65-2fff-468e-83f1-2cf9ada71054"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Send a message in Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "Email Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many messages in Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "Email Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "67f70fc0-6992-4410-b143-8894961c67a0",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0749e73b48cf3a94ff50d37b4b94008df8f3eb05623df06cfe06044e993a59aa"
+  },
+  "id": "We-75EjRJNXyP4VcAfk2c",
+  "tags": []
+}
