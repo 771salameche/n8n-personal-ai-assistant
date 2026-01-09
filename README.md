@@ -16,8 +16,7 @@ This project provides two distinct implementations of a Personal AI Assistant, s
 - [When to Choose Which Approach](#when-to-choose-which-approach)
 - [Troubleshooting](#troubleshooting)
 - [Future Improvements](#future-improvements)
-- [Contributing](#contributing)
-- [License](#license)
+
 
 ## Overview
 
@@ -37,7 +36,7 @@ The fundamental difference lies in how the agents are structured and how they co
 | **Paradigm** | Monolithic / Tightly-Coupled | Microservices / Loosely-Coupled |
 | **Communication** | Internal function calls between n8n workflows. | Network requests (HTTP) between agents. |
 | **Deployment** | Single n8n instance containing all workflows. | Main agent plus multiple independent agent servers. |
-| **Diagram** | `[SCREENSHOT: n8n workflow architecture diagram]` | `[SCREENSHOT: MCP microservices architecture diagram]` |
+
 
 ### n8n Workflow Architecture
 The `Personal Assistant` workflow acts as the central brain. When it receives a request (e.g., via Telegram), its core agent decides which specialized "tool" is needed. These tools are other n8n workflows (`Calendar_Agent`, `Email_Agent`, etc.) that are invoked directly using the `toolWorkflow` node. All processing happens within the same environment.
@@ -121,7 +120,7 @@ All API keys and OAuth connections are managed within the n8n "Credentials" stor
 ### MCP Server Endpoints
 The key configuration for the MCP approach is linking the `mcpClientTool` in the `Main_Agent` to the public URLs of the running MCP server agents. Any changes to the ngrok tunnel URL will require updating the client tool configuration.
 
-`[SCREENSHOT: MCP Client Tool configuration in n8n]`
+
 
 ## Features Comparison
 
